@@ -31,12 +31,16 @@ import wastetrack.ui.screens.admin.SimulationPanelScreen
 import wastetrack.ui.screens.admin.VehicleDetailScreen
 import wastetrack.ui.theme.paletteFor
 
-private enum class AdminScreen(val label: String) {
-    FLEET_OVERVIEW("Fleet overview"),
-    LIVE_MAP("Live map"),
-    VEHICLE_DETAIL("Vehicle detail"),
-    SIMULATION("Simulation"),
-    SETTINGS("Settings"),
+private enum class AdminScreen {
+    FLEET_OVERVIEW, LIVE_MAP, VEHICLE_DETAIL, SIMULATION, SETTINGS
+}
+
+private fun AdminScreen.label(strings: Strings): String = when (this) {
+    AdminScreen.FLEET_OVERVIEW -> strings.navFleetOverview
+    AdminScreen.LIVE_MAP -> strings.navLiveMap
+    AdminScreen.VEHICLE_DETAIL -> strings.navVehicleDetail
+    AdminScreen.SIMULATION -> strings.navSimulation
+    AdminScreen.SETTINGS -> strings.navSettings
 }
 
 private val SIDEBAR_WIDTH = 220.dp
@@ -47,6 +51,7 @@ fun AdminRoot(viewModel: FleetViewModel) {
     var screen by remember { mutableStateOf(AdminScreen.FLEET_OVERVIEW) }
     val state by viewModel.state.collectAsState()
     val palette = paletteFor(state.darkTheme)
+    val strings = LocalStrings.current
 
     Row(modifier = Modifier.fillMaxSize().background(palette.background)) {
         Column(
@@ -56,8 +61,8 @@ fun AdminRoot(viewModel: FleetViewModel) {
                 .background(palette.sidebarBackground)
                 .padding(16.dp)
         ) {
-            Text(text = "WasteTrack", color = palette.sidebarOnBackground, fontWeight = FontWeight.Bold)
-            Text(text = "Disposal compliance", color = palette.sidebarOnBackground.copy(alpha = 0.6f))
+            Text(text = strings.appName, color = palette.sidebarOnBackground, fontWeight = FontWeight.Bold)
+            Text(text = strings.tagline, color = palette.sidebarOnBackground.copy(alpha = 0.6f))
             Spacer(modifier = Modifier.height(24.dp))
 
             AdminScreen.entries.forEach { entry ->
@@ -74,7 +79,7 @@ fun AdminRoot(viewModel: FleetViewModel) {
                         .padding(horizontal = 12.dp, vertical = 10.dp)
                 ) {
                     Text(
-                        text = entry.label,
+                        text = entry.label(strings),
                         color = if (isActive) Color.White else palette.sidebarOnBackground,
                         fontWeight = if (isActive) FontWeight.SemiBold else FontWeight.Normal
                     )
@@ -101,7 +106,7 @@ fun AdminRoot(viewModel: FleetViewModel) {
             }
             Spacer(modifier = Modifier.height(8.dp))
             SidebarToggle(
-                label = "Dark mode",
+                label = strings.dark,
                 active = state.darkTheme,
                 palette = paletteFor(state.darkTheme),
                 onClick = { viewModel.setDarkTheme(!state.darkTheme) },

@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import wastetrack.ui.FleetState
 import wastetrack.ui.FleetViewModel
 import wastetrack.ui.Language
+import wastetrack.ui.LocalStrings
 import wastetrack.ui.formatKg
 import wastetrack.ui.theme.Palette
 import wastetrack.ui.theme.paletteFor
@@ -35,11 +36,12 @@ import wastetrack.ui.theme.paletteFor
 @Composable
 fun DriverSettingsScreen(state: FleetState, viewModel: FleetViewModel, modifier: Modifier = Modifier) {
     val palette = paletteFor(state.darkTheme)
+    val strings = LocalStrings.current
     val vehicle = state.selectedVehicle.vehicle
     val initials = vehicle.driverName.split(" ").mapNotNull { it.firstOrNull()?.toString() }.take(2).joinToString("")
 
     Column(modifier = modifier.fillMaxSize().background(palette.background).padding(16.dp)) {
-        Text(text = "Settings", fontWeight = FontWeight.Bold, color = palette.onSurface)
+        Text(text = strings.navSettings, fontWeight = FontWeight.Bold, color = palette.onSurface)
         Spacer(modifier = Modifier.height(16.dp))
 
         Surface(color = palette.surface, shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth()) {
@@ -56,19 +58,19 @@ fun DriverSettingsScreen(state: FleetState, viewModel: FleetViewModel, modifier:
         }
 
         Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Language", color = palette.onSurface, fontWeight = FontWeight.SemiBold)
+        Text(text = strings.language, color = palette.onSurface, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            SettingsChip("English", state.language == Language.EN, palette, Modifier.weight(1f)) { viewModel.setLanguage(Language.EN) }
-            SettingsChip("Twi", state.language == Language.TWI, palette, Modifier.weight(1f)) { viewModel.setLanguage(Language.TWI) }
+            SettingsChip(strings.english, state.language == Language.EN, palette, Modifier.weight(1f)) { viewModel.setLanguage(Language.EN) }
+            SettingsChip(strings.twi, state.language == Language.TWI, palette, Modifier.weight(1f)) { viewModel.setLanguage(Language.TWI) }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Theme", color = palette.onSurface, fontWeight = FontWeight.SemiBold)
+        Text(text = strings.theme, color = palette.onSurface, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            SettingsChip("Light", !state.darkTheme, palette, Modifier.weight(1f)) { viewModel.setDarkTheme(false) }
-            SettingsChip("Dark", state.darkTheme, palette, Modifier.weight(1f)) { viewModel.setDarkTheme(true) }
+            SettingsChip(strings.light, !state.darkTheme, palette, Modifier.weight(1f)) { viewModel.setDarkTheme(false) }
+            SettingsChip(strings.dark, state.darkTheme, palette, Modifier.weight(1f)) { viewModel.setDarkTheme(true) }
         }
 
         Spacer(modifier = Modifier.height(20.dp))

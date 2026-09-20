@@ -3,6 +3,7 @@ package wastetrack.ui
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,20 +31,22 @@ fun App() {
     val palette = paletteFor(state.darkTheme)
 
     WasteTrackTheme(darkTheme = state.darkTheme) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            TopControlBar(
-                palette = palette,
-                layoutOverride = state.layoutOverride,
-                onLayoutOverrideChange = { viewModel.setLayoutOverride(it) },
-                driverName = state.selectedVehicle.vehicle.driverName,
-                vehicleId = state.selectedVehicle.vehicle.id
-            )
-            BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-                val showAdmin = state.layoutOverride?.let { it == LayoutMode.ADMIN } ?: isAdminLayout(maxWidth)
-                if (showAdmin) {
-                    AdminRoot(viewModel)
-                } else {
-                    DriverRoot(viewModel)
+        CompositionLocalProvider(LocalStrings provides stringsFor(state.language)) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                TopControlBar(
+                    palette = palette,
+                    layoutOverride = state.layoutOverride,
+                    onLayoutOverrideChange = { viewModel.setLayoutOverride(it) },
+                    driverName = state.selectedVehicle.vehicle.driverName,
+                    vehicleId = state.selectedVehicle.vehicle.id
+                )
+                BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+                    val showAdmin = state.layoutOverride?.let { it == LayoutMode.ADMIN } ?: isAdminLayout(maxWidth)
+                    if (showAdmin) {
+                        AdminRoot(viewModel)
+                    } else {
+                        DriverRoot(viewModel)
+                    }
                 }
             }
         }

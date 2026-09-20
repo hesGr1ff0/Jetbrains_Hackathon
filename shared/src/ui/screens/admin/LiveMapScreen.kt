@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -83,6 +84,7 @@ fun LiveMapScreen(state: FleetState, modifier: Modifier = Modifier) {
                             zone = selectedZone,
                             route = routeCoordinates,
                             currentPosition = selectedSnapshot.currentReading?.coordinate,
+                            palette = palette,
                             modifier = Modifier.fillMaxWidth().height(300.dp)
                         )
                     }
@@ -115,7 +117,12 @@ fun LiveMapScreen(state: FleetState, modifier: Modifier = Modifier) {
 
 @Composable
 private fun CityWideMap(zones: List<Zone>, vehicles: List<VehicleSnapshot>, palette: Palette, modifier: Modifier = Modifier) {
-    Canvas(modifier = modifier) {
+    Canvas(modifier = modifier.clipToBounds()) {
+        // See ZoneCanvas.kt: Canvas paints its own opaque (white) backing on
+        // this target rather than showing the parent Surface through, and
+        // does not clip drawing to its own bounds by default.
+        drawRect(color = palette.surface)
+
         val zoneCenters = zones.map { it.centroid() }
         val vehiclePositions = vehicles.mapNotNull { it.currentReading?.coordinate }
         val allPoints = zoneCenters + vehiclePositions

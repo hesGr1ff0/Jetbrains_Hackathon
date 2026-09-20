@@ -28,10 +28,14 @@ import wastetrack.ui.screens.driver.LiveShiftScreen
 import wastetrack.ui.screens.driver.ShiftSummaryScreen
 import wastetrack.ui.theme.paletteFor
 
-private enum class DriverTab(val label: String) {
-    SHIFT("Shift"),
-    ACTIVITY("Activity"),
-    SETTINGS("Settings"),
+private enum class DriverTab {
+    SHIFT, ACTIVITY, SETTINGS
+}
+
+private fun DriverTab.label(strings: Strings): String = when (this) {
+    DriverTab.SHIFT -> strings.navShift
+    DriverTab.ACTIVITY -> strings.navActivity
+    DriverTab.SETTINGS -> strings.navSettings
 }
 
 /**
@@ -47,6 +51,7 @@ fun DriverRoot(viewModel: FleetViewModel) {
     val scope = rememberCoroutineScope()
     val state by viewModel.state.collectAsState()
     val palette = paletteFor(state.darkTheme)
+    val strings = LocalStrings.current
 
     LaunchedEffect(state.selectedVehicleId) {
         // Clear any override left over from the admin Simulation panel (shares
@@ -79,7 +84,7 @@ fun DriverRoot(viewModel: FleetViewModel) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = entry.label,
+                        text = entry.label(strings),
                         color = if (tab == entry) palette.compliantFg else palette.onSurfaceMuted,
                         fontWeight = if (tab == entry) FontWeight.SemiBold else FontWeight.Normal
                     )

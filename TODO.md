@@ -174,13 +174,13 @@ Work through sections in order. Do not start a section until the previous one's 
 
 ## Section 12 — Localization and Polish
 
-- [ ] Create `shared/src/ui/Strings.kt` — a `Strings` data class with ~15 key labels (verdict names, screen titles, button labels)
-- [ ] Provide `EN` and `TWI` instances
-- [ ] Wrap `App()` in a `CompositionLocalProvider` supplying the active `Strings`
-- [ ] Wire the language toggle in both settings screens to switch it
-- [ ] Confirm dark/light theme toggle works and looks consistent across all 9 screens
+- [x] Create `shared/src/ui/Strings.kt` — a `Strings` data class with ~15 key labels (verdict names, screen titles, button labels) — landed with 22 fields: app name/tagline, 4 verdict labels, 7 nav labels, 3 Simulation buttons, 6 settings labels
+- [x] Provide `EN` and `TWI` instances — **the Twi strings are a good-faith, unverified attempt; also deliberately ASCII-only** (substituting e/o for ɛ/ɔ) because those two characters rendered as tofu boxes in real browser testing on this environment's font — have a native speaker confirm both the translations and that ɛ/ɔ render correctly on the actual presentation device before the pitch
+- [x] Wrap `App()` in a `CompositionLocalProvider` supplying the active `Strings`
+- [x] Wire the language toggle in both settings screens to switch it — verified live in a real browser: sidebar/tabs/badges/buttons all update immediately
+- [x] Confirm dark/light theme toggle works and looks consistent across all 9 screens — found and fixed 3 real bugs via live browser testing while confirming this: (1) `ZoneCanvas`/`LoadOverTimeChart`/`WeightGauge` used hardcoded hex colors instead of the palette, invisible against a dark background; (2) Compose's `Canvas` paints its own opaque white backing rather than showing the parent `Surface` color through, so dark mode left white boxes until each canvas explicitly painted `palette.surface` first; (3) `Canvas` does not clip drawing to its own bounds by default — a zoomed-in `ZoneCanvas` let far-off route points project way outside the canvas and render as a stray line across the entire page, fixed with `Modifier.clipToBounds()`
 
-**Done when:** switching language updates visible text; switching theme updates all screens without a broken/unstyled element.
+**Done when:** switching language updates visible text; switching theme updates all screens without a broken/unstyled element. **Both confirmed via real browser automation**, not just compiled — see handing_over.md for the full account of what broke and how it was fixed.
 
 ---
 

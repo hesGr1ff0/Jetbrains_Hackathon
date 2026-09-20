@@ -66,6 +66,7 @@ fun VehicleDetailScreen(state: FleetState, modifier: Modifier = Modifier) {
                         history = snapshot.loadHistory,
                         tareKg = vehicle.tareKg,
                         toleranceKg = vehicle.toleranceKg,
+                        palette = palette,
                         modifier = Modifier.fillMaxWidth()
                     )
                     Text(text = "Empty weight ${vehicle.tareKg.formatKg()}, tolerance band +/-${vehicle.toleranceKg.formatKg()}", color = palette.onSurfaceMuted)

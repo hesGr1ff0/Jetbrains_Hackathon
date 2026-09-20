@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import wastetrack.ui.FleetState
 import wastetrack.ui.FleetViewModel
 import wastetrack.ui.Language
+import wastetrack.ui.LocalStrings
 import wastetrack.ui.theme.Palette
 import wastetrack.ui.theme.paletteFor
 
@@ -27,23 +28,24 @@ import wastetrack.ui.theme.paletteFor
 @Composable
 fun AdminSettingsScreen(state: FleetState, viewModel: FleetViewModel, modifier: Modifier = Modifier) {
     val palette = paletteFor(state.darkTheme)
+    val strings = LocalStrings.current
     Column(modifier = modifier.fillMaxSize().background(palette.background).padding(24.dp)) {
-        Text(text = "Settings", fontWeight = FontWeight.Bold, color = palette.onSurface)
+        Text(text = strings.navSettings, fontWeight = FontWeight.Bold, color = palette.onSurface)
         Spacer(modifier = Modifier.height(20.dp))
 
-        Text(text = "Language", color = palette.onSurface, fontWeight = FontWeight.SemiBold)
+        Text(text = strings.language, color = palette.onSurface, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            SettingsChip("English", state.language == Language.EN, palette) { viewModel.setLanguage(Language.EN) }
-            SettingsChip("Twi", state.language == Language.TWI, palette) { viewModel.setLanguage(Language.TWI) }
+            SettingsChip(strings.english, state.language == Language.EN, palette) { viewModel.setLanguage(Language.EN) }
+            SettingsChip(strings.twi, state.language == Language.TWI, palette) { viewModel.setLanguage(Language.TWI) }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-        Text(text = "Theme", color = palette.onSurface, fontWeight = FontWeight.SemiBold)
+        Text(text = strings.theme, color = palette.onSurface, fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            SettingsChip("Light", !state.darkTheme, palette) { viewModel.setDarkTheme(false) }
-            SettingsChip("Dark", state.darkTheme, palette) { viewModel.setDarkTheme(true) }
+            SettingsChip(strings.light, !state.darkTheme, palette) { viewModel.setDarkTheme(false) }
+            SettingsChip(strings.dark, state.darkTheme, palette) { viewModel.setDarkTheme(true) }
         }
     }
 }

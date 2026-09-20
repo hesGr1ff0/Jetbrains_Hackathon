@@ -33,6 +33,7 @@ import wastetrack.engine.Reading
 import wastetrack.engine.SimulatedSource
 import wastetrack.ui.FleetState
 import wastetrack.ui.FleetViewModel
+import wastetrack.ui.LocalStrings
 import wastetrack.ui.components.VerdictBadge
 import wastetrack.ui.components.ZoneCanvas
 import wastetrack.ui.formatKg
@@ -62,6 +63,7 @@ private enum class SimScenario(val label: String, val route: List<Reading>) {
 @Composable
 fun SimulationPanelScreen(state: FleetState, viewModel: FleetViewModel, modifier: Modifier = Modifier) {
     val palette = paletteFor(state.darkTheme)
+    val strings = LocalStrings.current
     val scope = rememberCoroutineScope()
     var selectedScenario by remember { mutableStateOf(SimScenario.COMPLIANT) }
     var sliderPosition by remember { mutableStateOf(SLIDER_DEFAULT_KG) }
@@ -131,9 +133,9 @@ fun SimulationPanelScreen(state: FleetState, viewModel: FleetViewModel, modifier
 
                     Spacer(modifier = Modifier.height(20.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        PrimaryButton("Run shift", palette = palette) { runScenario(selectedScenario) }
-                        SecondaryButton("Pause", palette = palette) { viewModel.stop() }
-                        SecondaryButton("Reset", palette = palette) {
+                        PrimaryButton(strings.runShift, palette = palette) { runScenario(selectedScenario) }
+                        SecondaryButton(strings.pause, palette = palette) { viewModel.stop() }
+                        SecondaryButton(strings.reset, palette = palette) {
                             viewModel.stop()
                             viewModel.setManualKg(null)
                             viewModel.setNoiseEnabled(false)
@@ -179,6 +181,7 @@ fun SimulationPanelScreen(state: FleetState, viewModel: FleetViewModel, modifier
                     zone = state.zones.first(),
                     route = selectedScenario.route.map { it.coordinate },
                     currentPosition = snapshot.currentReading?.coordinate,
+                    palette = palette,
                     modifier = Modifier.fillMaxWidth().height(220.dp)
                 )
             }

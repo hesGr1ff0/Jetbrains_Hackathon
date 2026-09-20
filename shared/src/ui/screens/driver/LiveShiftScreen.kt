@@ -66,6 +66,7 @@ fun LiveShiftScreen(state: FleetState, modifier: Modifier = Modifier) {
                 zone = displayZone,
                 route = routeCoordinates,
                 currentPosition = snapshot.currentReading?.coordinate,
+                palette = palette,
                 modifier = Modifier.fillMaxWidth().height(220.dp).padding(4.dp)
             )
         }

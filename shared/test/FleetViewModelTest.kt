@@ -1,6 +1,3 @@
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -8,30 +5,9 @@ import kotlin.test.assertTrue
 import wastetrack.data.ACCRA_ZONES
 import wastetrack.data.DRIVE_THROUGH_ROUTE
 import wastetrack.data.FLEET_VEHICLES
-import wastetrack.engine.Reading
-import wastetrack.engine.ReadingSource
 import wastetrack.engine.SimulatedSource
 import wastetrack.engine.Verdict
 import wastetrack.ui.FleetViewModel
-
-/**
- * A [ReadingSource] that emits one reading at a time and then waits for the
- * test to call [step] before emitting the next one. Lets a test land the
- * manual-weight override on an exact reading index deterministically,
- * instead of racing a wall-clock delay against a real coroutine dispatcher.
- */
-private class SteppableSource(private val readings: List<Reading>) : ReadingSource {
-    private val gate = Channel<Unit>(Channel.RENDEZVOUS)
-
-    suspend fun step() = gate.send(Unit)
-
-    override fun stream(): Flow<Reading> = flow {
-        readings.forEachIndexed { index, reading ->
-            emit(reading)
-            if (index < readings.lastIndex) gate.receive()
-        }
-    }
-}
 
 class FleetViewModelTest {
     private val vehicle = FLEET_VEHICLES.first { it.id == "M-24-GT-1842" }

@@ -16,16 +16,18 @@ import androidx.compose.ui.Modifier
 import wastetrack.ui.screens.admin.AdminSettingsScreen
 import wastetrack.ui.screens.admin.FleetOverviewScreen
 import wastetrack.ui.screens.admin.LiveMapScreen
+import wastetrack.ui.screens.admin.SimulationPanelScreen
 import wastetrack.ui.screens.admin.VehicleDetailScreen
 
 private enum class AdminScreen(val label: String) {
     FLEET_OVERVIEW("Fleet Overview"),
     LIVE_MAP("Live Map"),
     VEHICLE_DETAIL("Vehicle Detail"),
+    SIMULATION("Simulation"),
     SETTINGS("Settings"),
 }
 
-/** Wide-layout (>=700dp) root — CLAUDE.md §13 admin screens 1-3 + settings; Simulation panel lands in Section 10. */
+/** Wide-layout (>=700dp) root — CLAUDE.md §13 admin screens 1-5. */
 @Composable
 fun AdminRoot(viewModel: FleetViewModel) {
     var screen by remember { mutableStateOf(AdminScreen.FLEET_OVERVIEW) }
@@ -50,6 +52,7 @@ fun AdminRoot(viewModel: FleetViewModel) {
                 )
                 AdminScreen.LIVE_MAP -> LiveMapScreen(state)
                 AdminScreen.VEHICLE_DETAIL -> VehicleDetailScreen(state)
+                AdminScreen.SIMULATION -> SimulationPanelScreen(state, viewModel)
                 AdminScreen.SETTINGS -> AdminSettingsScreen(state, viewModel)
             }
         }

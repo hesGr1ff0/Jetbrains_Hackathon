@@ -149,13 +149,13 @@ Work through sections in order. Do not start a section until the previous one's 
 
 ## Section 10 — Simulation Panel (highest-value feature for Working Product score)
 
-- [ ] `screens/admin/SimulationPanelScreen.kt`
-- [ ] Scenario chips: Compliant / No zone / Drive-through / Partial — selecting one swaps the active `SimulatedSource` route and restarts
-- [ ] Weight slider (250–400kg range) bound to `manualKg` in `FleetViewModel`; starts in Auto (`null`) state
-- [ ] Sensor-noise toggle bound to the ±0.5kg jitter in `FleetViewModel`
-- [ ] Run / Pause / Reset controls
-- [ ] Label the panel "Simulation" visibly in the UI
-- [ ] Verify: dragging the slider while the vehicle is inside a zone changes the verdict live, in front of you, not just at shift end
+- [x] `screens/admin/SimulationPanelScreen.kt`
+- [x] Scenario chips: Compliant / No zone / Drive-through / Partial — selecting one swaps the active `SimulatedSource` route and restarts
+- [x] Weight slider (250–400kg range) bound to `manualKg` in `FleetViewModel`; starts in Auto (`null`) state
+- [x] Sensor-noise toggle bound to the ±0.5kg jitter in `FleetViewModel`
+- [x] Run / Pause / Reset controls
+- [x] Label the panel "Simulation" visibly in the UI
+- [x] Verify: dragging the slider while the vehicle is inside a zone changes the verdict live, in front of you, not just at shift end
 
 **Done when:** you can run the full demo script from the PRD (§15) end to end: open fleet overview → drive-through vehicle's detail shows a flat weight line through the zone → open Simulation, run "Compliant," verdict lands Compliant → drag slider up mid-zone-visit, verdict flips to Flagged → drag back down, returns to Compliant.
 

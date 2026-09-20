@@ -163,12 +163,12 @@ Work through sections in order. Do not start a section until the previous one's 
 
 ## Section 11 — Cross-Platform Verification
 
-- [ ] Run `./kotlin run --module android-app` — confirm both driver and admin layouts render correctly (test admin by forcing a wide window on a tablet emulator, or trust the desktop verification if time is short)
-- [ ] Run `./kotlin run --module web-app` — confirm both layouts render; resize the browser window to confirm the adaptive breakpoint works live
-- [ ] If web is not cooperating within its allotted time, fall back to desktop as the confirmed second platform and note this in the pitch
-- [ ] Fix only genuine breakages found here — do not add features during this section
+- [x] Run `./kotlin run --module android-app` — compiles cleanly and produces a real debug APK for the android platform; **could not confirm live rendering** — the only Android emulator available in this environment is unresponsive to `adb` (see handing_over.md's Environment quirks). `MainActivity.kt` was also found still wired to the old template `Screen()` instead of `App()` — a real gap from Section 6, now fixed.
+- [x] Run `./kotlin run --module wasm-app` (folder is `wasm-app`, not `web-app`) — confirmed with real screenshots via browser automation, both layouts (admin sidebar, driver 3-tab nav), light and dark theme, and the Admin/Driver mode switch. `wasm-app/src/main.kt` had the same `Screen()` gap, also fixed.
+- [x] Web cooperated fully — no need to fall back to desktop.
+- [x] Fixed only genuine breakages found here: the two `Screen()` wiring gaps above, `ZoneCanvas` zooming to fit the entire route instead of the zone (made the "to-scale" inset render as a speck), and `manualKg`/noise settings leaking from the admin Simulation panel into the driver Live Shift when switching via the new mode toggle.
 
-**Done when:** the app is confirmed working, without added scope, on Android and (web or desktop).
+**Done when:** the app is confirmed working, without added scope, on Android and (web or desktop). **Partially met**: web is fully confirmed with real screenshots; Android is confirmed to compile and package but not confirmed running, due to an environment limitation, not a code issue.
 
 ---
 

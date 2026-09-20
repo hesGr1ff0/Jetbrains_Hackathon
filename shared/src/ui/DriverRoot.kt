@@ -49,6 +49,11 @@ fun DriverRoot(viewModel: FleetViewModel) {
     val palette = paletteFor(state.darkTheme)
 
     LaunchedEffect(state.selectedVehicleId) {
+        // Clear any override left over from the admin Simulation panel (shares
+        // this same FleetViewModel) — the driver's own live shift should always
+        // start clean, not inherit a judge's leftover slider/noise setting.
+        viewModel.setManualKg(null)
+        viewModel.setNoiseEnabled(false)
         val route = DEFAULT_SCENARIO_BY_VEHICLE_ID[state.selectedVehicleId].orEmpty()
         viewModel.start(scope, SimulatedSource(route, delayMs = 350L))
     }

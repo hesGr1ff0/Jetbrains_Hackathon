@@ -117,7 +117,8 @@ Remote is `origin` → `https://github.com/hesGr1ff0/Jetbrains_Hackathon.git`, b
 4. `1df7dca` — Sections 8-9 (all 9 screens, extended FleetViewModel, this doc's first version)
 5. `8e644e5` — Section 10 (Simulation panel + demo-script test)
 6. `4223a4e` — visual redesign to match the reference mockup + mode switch/profile chip + README.md
-7. *(pending as of this doc)* — Section 11 (cross-platform verification): wired `MainActivity.kt`/`wasm-app` to the real `App()`, moved JVM-only tests to `shared/test@jvm/` (fixes wasmJs test compilation), fixed the `ZoneCanvas` zoom bug and the Simulation-panel-to-driver state leak, both found via real browser testing
+7. `76592cc` — Section 11 (cross-platform verification): wired `MainActivity.kt`/`wasm-app` to the real `App()`, moved JVM-only tests to `shared/test@jvm/` (fixes wasmJs test compilation), fixed the `ZoneCanvas` zoom bug and the Simulation-panel-to-driver state leak, both found via real browser testing
+8. *(pending as of this doc)* — added a "How to demo this" section to README.md: run web/desktop from your own terminal rather than a sandboxed assistant process (which is why the Android emulator hung — no display/GPU access in that process), Android via a physical device as the more reliable fallback, and record a backup video ahead of time
 
 `ios-app`'s IDE-generated diffs (`project.pbxproj`, a `.xcscheme` file) have been deliberately left unstaged every time — that module is out of scope per CLAUDE.md and its churn isn't ours to manage.
 

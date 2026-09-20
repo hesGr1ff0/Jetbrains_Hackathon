@@ -56,6 +56,15 @@ To compile/test without touching the (out-of-scope) iOS target:
 ./kotlin test --include-module shared --platform jvm
 ```
 
+## How to demo this
+
+Web and desktop are the reliable paths — both have been run and verified end to end. If you're demoing on a machine where an AI coding assistant's own sandboxed process built the project (no display/GPU access in that process), run the commands below **yourself, in your own terminal**, not through the assistant — a real logged-in session has display access that a sandboxed one may not.
+
+- **Web** (most verified): `./kotlin run --module wasm-app`, then open `http://127.0.0.1:8080` in a real browser. All 9 screens, both themes, and the live Simulation mechanic have been confirmed working this way.
+- **Desktop**: `./kotlin run --module jvm-app` opens a real window directly — the fastest fallback, and CLAUDE.md's own instructions explicitly treat it as an acceptable second platform if Android doesn't cooperate.
+- **Android**: try `./kotlin run --module android-app` against a booted emulator or connected device from your own terminal first. If an emulator is unresponsive, a physical phone with USB debugging enabled is more reliable — install the already-built debug APK directly with `adb install -r build/tasks/_android-app_buildAndroidDebug/gradle-project/build/_android-app/outputs/apk/debug/gradle-project-debug.apk`.
+- **Record a backup video ahead of time.** Once one of the above is running, screen-record the demo script below. If live hardware glitches during the actual pitch, this is the insurance.
+
 ## Screenshots
 
 **Fleet overview** (admin) — real, distinct verdicts from the engine, not hardcoded rows:

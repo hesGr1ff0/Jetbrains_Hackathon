@@ -123,13 +123,13 @@ Work through sections in order. Do not start a section until the previous one's 
 
 ## Section 8 — Driver Screens (Android, narrow layout)
 
-- [ ] `screens/driver/LiveShiftScreen.kt` — verdict badge, current load vs. empty weight, in/out-of-zone status, `ZoneCanvas` with route + dot
-- [ ] `screens/driver/DropOffReminderScreen.kt` — nudge state: nearest zone name, distance, framed as reminder not penalty
-- [ ] `screens/driver/DropOffResultScreen.kt` — entry weight, exit weight, change, classification badge, reason
-- [ ] `screens/driver/ShiftSummaryScreen.kt` — end-of-shift verdict, collected vs. delivered totals, visit list
-- [ ] `screens/driver/DriverSettingsScreen.kt` — language toggle, theme toggle, tare weight display, reminder toggle
-- [ ] Use "empty weight" in all driver-facing copy, never "tare weight"
-- [ ] Wire navigation between these 5 screens (simple state-based nav is enough — no navigation library needed)
+- [x] `screens/driver/LiveShiftScreen.kt` — verdict badge, current load vs. empty weight, in/out-of-zone status, `ZoneCanvas` with route + dot
+- [x] `screens/driver/DropOffReminderScreen.kt` — nudge state: nearest zone name, distance, framed as reminder not penalty
+- [x] `screens/driver/DropOffResultScreen.kt` — entry weight, exit weight, change, classification badge, reason
+- [x] `screens/driver/ShiftSummaryScreen.kt` — end-of-shift verdict, collected vs. delivered totals, visit list
+- [x] `screens/driver/DriverSettingsScreen.kt` — language toggle, theme toggle, tare weight display, reminder toggle
+- [x] Use "empty weight" in all driver-facing copy, never "tare weight"
+- [x] Wire navigation between these 5 screens (simple state-based nav is enough — no navigation library needed)
 
 **Done when:** all 5 driver screens are reachable and show live data from `FleetViewModel`, verified on desktop with the narrow-layout branch forced on.
 
@@ -137,11 +137,11 @@ Work through sections in order. Do not start a section until the previous one's 
 
 ## Section 9 — Admin Screens (Web, wide layout)
 
-- [ ] `screens/admin/FleetOverviewScreen.kt` — stat cards (total/compliant/partial/flagged), vehicle table (ID, driver, type, verdict badge, reason, current load), filter chips (All/Flagged/Partial)
-- [ ] `screens/admin/LiveMapScreen.kt` — zones as fixed-size markers (not to scale) on a city-wide layout; selecting a zone/vehicle opens a to-scale inset with the 200m square and live trail; zone source citations shown in a side panel (no separate zones page)
-- [ ] `screens/admin/VehicleDetailScreen.kt` — header (vehicle ID, driver, verdict badge), zone-visits table, load-over-time chart with dashed tare line and shaded tolerance band
-- [ ] `screens/admin/AdminSettingsScreen.kt` — language toggle, theme toggle
-- [ ] Wire navigation between these 4 screens
+- [x] `screens/admin/FleetOverviewScreen.kt` — stat cards (total/compliant/partial/flagged), vehicle table (ID, driver, type, verdict badge, reason, current load), filter chips (All/Flagged/Partial)
+- [x] `screens/admin/LiveMapScreen.kt` — zones as fixed-size markers (not to scale) on a city-wide layout; selecting a zone/vehicle opens a to-scale inset with the 200m square and live trail; zone source citations shown in a side panel (no separate zones page)
+- [x] `screens/admin/VehicleDetailScreen.kt` — header (vehicle ID, driver, verdict badge), zone-visits table, load-over-time chart with dashed tare line and shaded tolerance band
+- [x] `screens/admin/AdminSettingsScreen.kt` — language toggle, theme toggle
+- [x] Wire navigation between these 4 screens
 
 **Done when:** all 4 admin screens are reachable and show live/real data (not hardcoded table rows), verified on desktop with the wide-layout branch.
 

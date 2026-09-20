@@ -37,6 +37,8 @@ class FleetViewModelTest {
     private val vehicle = FLEET_VEHICLES.first { it.id == "M-24-GT-1842" }
     private val zone = ACCRA_ZONES.first { it.id == "z1" }
 
+    private fun newViewModel() = FleetViewModel(listOf(vehicle), listOf(zone), emptyMap())
+
     @Test
     fun manualOverrideForcesDriveThroughToCompliant() = runBlocking {
         // Simulates a judge dragging the weight slider down to empty weight
@@ -47,7 +49,7 @@ class FleetViewModelTest {
         // "drove in loaded, then emptied" story this is meant to prove.
         // DRIVE_THROUGH_ROUTE enters the zone at index 11 and exits at index
         // 20 (verified against the real zone box in Scenarios.kt).
-        val viewModel = FleetViewModel(vehicle, listOf(zone))
+        val viewModel = newViewModel()
         val source = SteppableSource(DRIVE_THROUGH_ROUTE)
         val job = viewModel.start(this, source)
 
@@ -58,25 +60,25 @@ class FleetViewModelTest {
         job.join()
 
         val finalState = viewModel.state.value
-        assertEquals(Verdict.COMPLIANT, finalState.verdict)
+        assertEquals(Verdict.COMPLIANT, finalState.selectedVehicle.verdict)
     }
 
     @Test
     fun autoModeKeepsDriveThroughFlagged() = runBlocking {
-        val viewModel = FleetViewModel(vehicle, listOf(zone))
+        val viewModel = newViewModel()
         viewModel.start(this, SimulatedSource(DRIVE_THROUGH_ROUTE, delayMs = 0L)).join()
 
         val finalState = viewModel.state.value
-        assertEquals(Verdict.FLAGGED, finalState.verdict)
+        assertEquals(Verdict.FLAGGED, finalState.selectedVehicle.verdict)
     }
 
     @Test
     fun noiseTogglePerturbsLoadWithinJitterBound() = runBlocking {
-        val viewModel = FleetViewModel(vehicle, listOf(zone))
+        val viewModel = newViewModel()
         viewModel.setNoiseEnabled(true)
         viewModel.start(this, SimulatedSource(DRIVE_THROUGH_ROUTE, delayMs = 0L)).join()
 
-        val lastLoadKg = viewModel.state.value.currentReading!!.loadKg
+        val lastLoadKg = viewModel.state.value.selectedVehicle.currentReading!!.loadKg
         assertTrue(lastLoadKg != 320.0, "noise should perturb the raw 320.0kg reading")
         assertTrue(kotlin.math.abs(lastLoadKg - 320.0) <= 0.5, "jitter should stay within +/-0.5kg")
     }

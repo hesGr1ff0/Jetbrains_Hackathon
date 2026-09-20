@@ -2,7 +2,6 @@ package wastetrack.ui
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,22 +16,20 @@ import wastetrack.ui.theme.WasteTrackTheme
  * or driver (narrow) layout by width, per CLAUDE.md §6/§14 step 10. Both
  * MainActivity.kt (Android) and the web/desktop entry points display this
  * same composable unmodified.
- *
- * The admin/driver branches below are placeholders — the real screens land
- * in Sections 8 (driver) and 9 (admin) of TODO.md; this section only proves
- * the breakpoint switch and the view model wiring.
  */
 @Composable
 fun App() {
-    val viewModel = remember { FleetViewModel(FLEET_VEHICLES.first(), ACCRA_ZONES) }
+    val viewModel = remember {
+        FleetViewModel(FLEET_VEHICLES, ACCRA_ZONES, DEFAULT_SCENARIO_BY_VEHICLE_ID)
+    }
     val state by viewModel.state.collectAsState()
 
-    WasteTrackTheme {
+    WasteTrackTheme(darkTheme = state.darkTheme) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
             if (isAdminLayout(maxWidth)) {
-                BasicText("Admin layout — vehicle ${state.vehicle.id} (width=$maxWidth)")
+                AdminRoot(viewModel)
             } else {
-                BasicText("Driver layout — vehicle ${state.vehicle.id} (width=$maxWidth)")
+                DriverRoot(viewModel)
             }
         }
     }

@@ -1,45 +1,64 @@
 package wastetrack.ui.screens.admin
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.material3.Button
-import androidx.compose.material3.Switch
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import wastetrack.ui.FleetState
 import wastetrack.ui.FleetViewModel
 import wastetrack.ui.Language
+import wastetrack.ui.theme.Palette
+import wastetrack.ui.theme.paletteFor
 
 /** CLAUDE.md §13 admin screen 5. */
 @Composable
 fun AdminSettingsScreen(state: FleetState, viewModel: FleetViewModel, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.fillMaxSize().padding(16.dp)) {
-        BasicText(text = "Settings")
-        Spacer(modifier = Modifier.height(16.dp))
+    val palette = paletteFor(state.darkTheme)
+    Column(modifier = modifier.fillMaxSize().background(palette.background).padding(24.dp)) {
+        Text(text = "Settings", fontWeight = FontWeight.Bold, color = palette.onSurface)
+        Spacer(modifier = Modifier.height(20.dp))
 
-        BasicText(text = "Language")
-        Spacer(modifier = Modifier.height(4.dp))
-        Row {
-            Button(onClick = { viewModel.setLanguage(Language.EN) }) { Text("English") }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = { viewModel.setLanguage(Language.TWI) }) { Text("Twi") }
+        Text(text = "Language", color = palette.onSurface, fontWeight = FontWeight.SemiBold)
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            SettingsChip("English", state.language == Language.EN, palette) { viewModel.setLanguage(Language.EN) }
+            SettingsChip("Twi", state.language == Language.TWI, palette) { viewModel.setLanguage(Language.TWI) }
         }
-        Spacer(modifier = Modifier.height(4.dp))
-        BasicText(text = "Current: ${state.language}")
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Row {
-            BasicText(text = "Dark theme")
-            Spacer(modifier = Modifier.width(8.dp))
-            Switch(checked = state.darkTheme, onCheckedChange = { viewModel.setDarkTheme(it) })
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(text = "Theme", color = palette.onSurface, fontWeight = FontWeight.SemiBold)
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            SettingsChip("Light", !state.darkTheme, palette) { viewModel.setDarkTheme(false) }
+            SettingsChip("Dark", state.darkTheme, palette) { viewModel.setDarkTheme(true) }
         }
+    }
+}
+
+@Composable
+private fun SettingsChip(label: String, selected: Boolean, palette: Palette, onClick: () -> Unit) {
+    Surface(
+        color = if (selected) palette.sidebarActive else palette.surfaceVariant,
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier.clickable(onClick = onClick)
+    ) {
+        Text(
+            text = label,
+            color = if (selected) Color.White else palette.onSurface,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
+        )
     }
 }

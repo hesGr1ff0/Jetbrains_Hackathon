@@ -20,6 +20,13 @@ private const val NOISE_JITTER_KG = 0.5
 
 enum class Language { EN, TWI }
 
+/**
+ * Not in CLAUDE.md — added at the user's request so a single window can
+ * preview both layouts without resizing. `null` means "follow the width
+ * breakpoint," which stays the default (see [LayoutBreakpoint.kt]).
+ */
+enum class LayoutMode { ADMIN, DRIVER }
+
 data class VehicleSnapshot(
     val vehicle: Vehicle,
     val currentReading: Reading? = null,
@@ -39,6 +46,7 @@ data class FleetState(
     val language: Language = Language.EN,
     val darkTheme: Boolean = false,
     val reminderEnabled: Boolean = true,
+    val layoutOverride: LayoutMode? = null,
 ) {
     val selectedVehicle: VehicleSnapshot get() = vehicles.getValue(selectedVehicleId)
 }
@@ -117,6 +125,10 @@ class FleetViewModel(
 
     fun setReminderEnabled(enabled: Boolean) {
         _state.update { it.copy(reminderEnabled = enabled) }
+    }
+
+    fun setLayoutOverride(mode: LayoutMode?) {
+        _state.update { it.copy(layoutOverride = mode) }
     }
 
     /** Streams [source] into the currently selected vehicle, replacing its tracker. */

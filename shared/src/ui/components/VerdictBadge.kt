@@ -6,20 +6,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import wastetrack.engine.Verdict
-
-// ASSUMPTION: exact hex colors are not specified in CLAUDE.md — only the
-// word/color pairing (Compliant=green, Partial=amber, Flagged=red,
-// In progress=blue) is specified in §13. These are placeholder shades.
-private fun colorFor(verdict: Verdict): Color = when (verdict) {
-    Verdict.IN_PROGRESS -> Color(0xFF1565C0)
-    Verdict.COMPLIANT -> Color(0xFF2E7D32)
-    Verdict.PARTIAL -> Color(0xFFF9A825)
-    Verdict.FLAGGED -> Color(0xFFC62828)
-}
+import wastetrack.ui.theme.Palette
+import wastetrack.ui.theme.backgroundFor
+import wastetrack.ui.theme.foregroundFor
 
 private fun labelFor(verdict: Verdict): String = when (verdict) {
     Verdict.IN_PROGRESS -> "In progress"
@@ -28,18 +20,19 @@ private fun labelFor(verdict: Verdict): String = when (verdict) {
     Verdict.FLAGGED -> "Flagged"
 }
 
+/** Never color alone (CLAUDE.md §13) — the label text always carries the verdict word too. */
 @Composable
-fun VerdictBadge(verdict: Verdict, modifier: Modifier = Modifier) {
+fun VerdictBadge(verdict: Verdict, palette: Palette, modifier: Modifier = Modifier) {
     Surface(
-        color = colorFor(verdict),
-        shape = RoundedCornerShape(8.dp),
+        color = palette.backgroundFor(verdict),
+        shape = RoundedCornerShape(999.dp),
         modifier = modifier
     ) {
         Text(
             text = labelFor(verdict),
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+            color = palette.foregroundFor(verdict),
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
         )
     }
 }

@@ -87,13 +87,13 @@ Work through sections in order. Do not start a section until the previous one's 
 
 ## Section 5 — State Management
 
-- [ ] Create `shared/src/ui/FleetViewModel.kt`
-- [ ] Define `FleetState` data class (holds current readings, current vehicle, verdict, manualKg override, noise toggle state)
-- [ ] Implement single `MutableStateFlow<FleetState>` — no DI framework
-- [ ] Implement `start(scope)` collecting from `ReadingSource.stream()`, updating state per reading
-- [ ] Implement provisional-verdict computation: recompute verdict on every reading as if the shift ended now (`shiftEnded = true`), not only at route completion
-- [ ] Implement `manualKg` override: if non-null, replace incoming reading's `loadKg` before it reaches the classifier; `null` = Auto (follow route)
-- [ ] Implement noise toggle: ±0.5kg random jitter applied to readings when enabled
+- [x] Create `shared/src/ui/FleetViewModel.kt`
+- [x] Define `FleetState` data class (holds current readings, current vehicle, verdict, manualKg override, noise toggle state)
+- [x] Implement single `MutableStateFlow<FleetState>` — no DI framework
+- [x] Implement `start(scope)` collecting from `ReadingSource.stream()`, updating state per reading
+- [x] Implement provisional-verdict computation: recompute verdict on every reading (see note below on the exact `shiftEnded` semantics)
+- [x] Implement `manualKg` override: if non-null, replace incoming reading's `loadKg` before it reaches the classifier; `null` = Auto (follow route)
+- [x] Implement noise toggle: ±0.5kg random jitter applied to readings when enabled
 
 **Done when:** manually driving state changes (in a scratch test or temporary UI) shows the verdict updating live.
 
@@ -101,10 +101,10 @@ Work through sections in order. Do not start a section until the previous one's 
 
 ## Section 6 — Adaptive Layout Shell
 
-- [ ] Create/replace `shared/src/App.kt` as the single root `@Composable`
-- [ ] Use `BoxWithConstraints` to branch: width > 700dp → admin layout, else → driver layout
-- [ ] Construct `FleetViewModel` with `remember` inside `App()`
-- [ ] Verify on desktop: resizing the window switches between the two layouts live
+- [x] Create/replace `shared/src/App.kt` as the single root `@Composable`
+- [x] Use `BoxWithConstraints` to branch: width > 700dp → admin layout, else → driver layout
+- [x] Construct `FleetViewModel` with `remember` inside `App()`
+- [x] Verify on desktop: resizing the window switches between the two layouts live
 
 **Done when:** the same `App()` composable, unmodified, is what both `MainActivity.kt` (Android) and `main.kt` (web) display.
 
@@ -112,10 +112,10 @@ Work through sections in order. Do not start a section until the previous one's 
 
 ## Section 7 — Shared UI Components
 
-- [ ] `shared/src/ui/components/VerdictBadge.kt` — color + text for each `Verdict` (never color alone: green=Compliant, amber=Partial, red=Flagged, blue=In progress, grey=Unknown)
-- [ ] `shared/src/ui/components/WeightGauge.kt` — current load vs. empty weight
-- [ ] `shared/src/ui/components/ZoneCanvas.kt` — draws a zone square, a route polyline, and a moving dot; project lat/lng to screen x/y with y-axis inverted (latitude increases upward, screen y increases downward)
-- [ ] `shared/src/ui/theme/` — color tokens, typography, dark/light variants
+- [x] `shared/src/ui/components/VerdictBadge.kt` — color + text for each `Verdict` (never color alone: green=Compliant, amber=Partial, red=Flagged, blue=In progress, grey=Unknown)
+- [x] `shared/src/ui/components/WeightGauge.kt` — current load vs. empty weight
+- [x] `shared/src/ui/components/ZoneCanvas.kt` — draws a zone square, a route polyline, and a moving dot; project lat/lng to screen x/y with y-axis inverted (latitude increases upward, screen y increases downward)
+- [x] `shared/src/ui/theme/` — color tokens, typography, dark/light variants
 
 **Done when:** each component renders correctly in isolation on desktop (a scratch preview screen is fine for checking this).
 

@@ -82,3 +82,16 @@ Open the **Simulation** panel (admin, wide layout). Run the "Drive-through" scen
 ## Status
 
 Engine, all screens, the Simulation panel, and EN/Twi localization are built; the web build has been verified rendering correctly in a real browser (all 9 screens, both themes, both languages). Android compiles and packages to a real APK but hasn't been confirmed running, due to an emulator issue in the current build environment rather than the code. The Twi strings are a good-faith, unverified attempt (and deliberately spelled without ɛ/ɔ, since those characters didn't render on this environment's font) — have a native speaker review before the pitch. See `TODO.md` for the section-by-section build checklist and `handing_over.md` for a detailed account of what's built, key design decisions, known assumptions to confirm, and what's left.
+
+## Relevance beyond waste management
+
+The core difficulty in WasteTrack is adversarial: an operator can satisfy a
+GPS-only compliance check by passing through an authorised site without
+disposing of anything. Detecting non-compliance therefore requires evidence
+that the monitored signal cannot easily be gamed. The same structure
+underlies fraud and anti-money-laundering detection, where transactions are
+designed to appear legitimate to the controls that screen them.
+
+## Team and contributions
+
+Built at [JetBrains X NYU Abu Dhabi Student Hackathon,  September 2026] by Griffin, Mahad, Jane & Jayden 
